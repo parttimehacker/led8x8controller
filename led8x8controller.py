@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """ Control the display of an Adafruit 8x8 LED backpack """
 
-import led8x8idle.Led8x8Idle
-import led8x8flash.Led8x8Flash
+from led8x8idle.led8x8idle import Led8x8Idle
+import led8x8flash.led8x8flash
 
 IDLE_MODE = 0
 FIRE_MODE = 1
@@ -18,9 +18,11 @@ class Led8x8Controller:
         """ create initial conditions and saving display and I2C lock """
         self.bus_lock = lock
         self.bus_lock.acquire(True)
-        self.idle = Led8x8Idle()
-        self.fire = Led8x8Flash(RED)
-        self.panic = LED8x8Flash(YELLOW)
+        self.mode = IDLE_MODE
+        self.lastMode = IDLE_MODE
+        self.idle = led8x8idle.Led8x8Idle()
+        self.fire = led8x8flash.Led8x8Flash(RED)
+        self.panic = led8x8flash.Led8x8Flash(YELLOW)
         self.bus_lock.release()
 
     def reset(self,):
